@@ -7,7 +7,6 @@
 
 import Foundation
 import MapKit
-import SwiftuiHelper
 
 @MainActor
 public class CustomLocationManager : NSObject , ObservableObject {

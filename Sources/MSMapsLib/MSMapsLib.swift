@@ -1,6 +1,7 @@
 // The Swift Programming Language
 // https://docs.swift.org/swift-book
-import SwiftuiHelper
+
+import SwiftUI
 
 public struct MSMapsLib {
     public let mapsHelper = MapsHelper.shared
@@ -18,7 +19,7 @@ public struct MSMapsLib {
     
     func setMapsIcon(_ key:String) {
         if(!key.isEmpty){
-            mapsHelper.mapMarkerImage = CustomImage(key)
+            mapsHelper.mapMarkerImage = Image(key)
         }
     }
 }

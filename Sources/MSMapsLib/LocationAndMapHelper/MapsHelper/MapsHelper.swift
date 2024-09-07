@@ -7,7 +7,7 @@
 
 import Foundation
 import UIKit
-import SwiftuiHelper
+import SwiftUI
 
 public class MapsHelper{
     public init() {
@@ -16,7 +16,7 @@ public class MapsHelper{
     public static let shared = MapsHelper.init()
     
     var GoogleMapsAPIServerKey = ""
-    var mapMarkerImage = CustomImage("location")
+    var mapMarkerImage = Image("location")
     
     public var onPickedLat : ((String)->Void)? = nil
     public var onPickedLng : ((String)->Void)? = nil
