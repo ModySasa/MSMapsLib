@@ -2,7 +2,7 @@
 // https://docs.swift.org/swift-book
 import SwiftuiHelper
 
-public struct MapsLib {
+public struct MSMapsLib {
     public let mapsHelper = MapsHelper.shared
     
     public init (_ mapKey : String , mapIcon : String = "") {

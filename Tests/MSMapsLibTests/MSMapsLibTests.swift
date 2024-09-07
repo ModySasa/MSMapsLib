@@ -1,7 +1,7 @@
 import XCTest
-@testable import MapsLib
+@testable import MSMapsLib
 
-final class MapsLibTests: XCTestCase {
+final class MSMapsLibTests: XCTestCase {
     func testExample() throws {
         // XCTest Documentation
         // https://developer.apple.com/documentation/xctest
