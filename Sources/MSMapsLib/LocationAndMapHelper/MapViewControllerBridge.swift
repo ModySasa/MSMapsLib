@@ -79,10 +79,10 @@ public struct MapViewControllerBridge: UIViewControllerRepresentable {
         
         if let place = viewModel.selectedPlace {
             if viewModel.mustHaveFormattedAddress, !place.formattedAddress.isEmpty {
-                let camera = GMSCameraPosition.camera(withLatitude: place.coordinate!.latitude, longitude: place.coordinate!.longitude, zoom: 14.0)
+                let camera = GMSCameraPosition.camera(withLatitude: place.coordinate!.latitude, longitude: place.coordinate!.longitude, zoom: viewModel.shouldChangeZoom ? 14.0 : mapView.camera.zoom)
                 mapView.camera = camera
             } else {
-                let camera = GMSCameraPosition.camera(withLatitude: place.coordinate!.latitude, longitude: place.coordinate!.longitude, zoom: 14.0)
+                let camera = GMSCameraPosition.camera(withLatitude: place.coordinate!.latitude, longitude: place.coordinate!.longitude, zoom: viewModel.shouldChangeZoom ? 14.0 : mapView.camera.zoom)
                 mapView.camera = camera
             }
             

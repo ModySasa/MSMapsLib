@@ -35,6 +35,7 @@ public class GMapViewModel : ObservableObject {
         , canTapMap : Bool = false
         , isPickLocation : Bool = false
         , justShowLocation : Bool = false
+        , shouldChangeZoom : Bool = false
         , passedLocations : [PlaceDetails] = .init()
     ) {
         self.customLocationManager = .init()
@@ -44,11 +45,13 @@ public class GMapViewModel : ObservableObject {
         self.canTapMap = canTapMap
         self.isPickLocation = isPickLocation
         self.justShowLocation = justShowLocation
+        self.shouldChangeZoom = shouldChangeZoom
         self.passedLocations = passedLocations
     }
     
     @Published public var mustHaveFormattedAddress : Bool = false
     @Published public var mustMoveToMarkersCenter : Bool = true
+    @Published public var shouldChangeZoom : Bool = true
     @Published public var showMarkers : Bool = true
     
     public var shouldShowHome : Bool
