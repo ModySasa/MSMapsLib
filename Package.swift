@@ -17,8 +17,8 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
-        .package(url: "https://github.com/googlemaps/ios-places-sdk", .upToNextMinor(from: "9.0.0")),
-        .package(url: "https://github.com/googlemaps/ios-maps-sdk", .upToNextMinor(from: "9.0.0")),
+        .package(url: "https://github.com/googlemaps/ios-places-sdk", .upToNextMinor(from: "9.2.0")),
+        .package(url: "https://github.com/googlemaps/ios-maps-sdk", .upToNextMinor(from: "9.2.0")),
     ],
 
     targets: [

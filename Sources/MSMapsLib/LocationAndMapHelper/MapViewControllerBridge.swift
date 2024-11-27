@@ -33,6 +33,7 @@ public struct MapViewControllerBridge: UIViewControllerRepresentable {
         }
         
         if viewModel.mustMoveToMarkersCenter {
+            print("CAMERA TEST ::: mustMoveToMarkersCenter")
             let centerCoords = CLLocationCoordinate2D(latitude: lat / Double(markers.count), longitude: lng / Double(markers.count))
             let camera = GMSCameraPosition.camera(withLatitude: centerCoords.latitude, longitude: centerCoords.longitude, zoom: 14.0)
             mapView.camera = camera
@@ -42,7 +43,8 @@ public struct MapViewControllerBridge: UIViewControllerRepresentable {
     func moveCamera(mapView: GMSMapView) {
         if let moveCameraToPosition {
             let camera = GMSCameraPosition.camera(withLatitude: moveCameraToPosition.coordinates.latitude, longitude: moveCameraToPosition.coordinates.longitude, zoom: moveCameraToPosition.zoom)
-            print("CAMERA TEST :::" , camera.zoom , camera.target.latitude , camera.target.longitude)
+//            print("CAMERA TEST :::" , camera.zoom , camera.target.latitude , camera.target.longitude)
+            print("CAMERA TEST ::: moveCameraToPosition")
             mapView.camera = camera
         }
     }
@@ -79,11 +81,15 @@ public struct MapViewControllerBridge: UIViewControllerRepresentable {
         
         if let place = viewModel.selectedPlace {
             if viewModel.mustHaveFormattedAddress, !place.formattedAddress.isEmpty {
+                print("CHANGING ZOOM CHECK BEFORE , NOT EMPTY " , viewModel.shouldChangeZoom , mapView.camera.zoom)
                 let camera = GMSCameraPosition.camera(withLatitude: place.coordinate!.latitude, longitude: place.coordinate!.longitude, zoom: viewModel.shouldChangeZoom ? 14.0 : mapView.camera.zoom)
                 mapView.camera = camera
+//                print("CHANGING ZOOM CHECK AFTER , NOT EMPTY " , viewModel.shouldChangeZoom , mapView.camera.zoom)
             } else {
+                print("CHANGING ZOOM CHECK BEFORE , IS EMPTY " , viewModel.shouldChangeZoom , mapView.camera.zoom)
                 let camera = GMSCameraPosition.camera(withLatitude: place.coordinate!.latitude, longitude: place.coordinate!.longitude, zoom: viewModel.shouldChangeZoom ? 14.0 : mapView.camera.zoom)
                 mapView.camera = camera
+//                print("CHANGING ZOOM CHECK AFTER , IS EMPTY " , viewModel.shouldChangeZoom , mapView.camera.zoom)
             }
             
             if let selectedMarker = selectedMarker {
@@ -127,7 +133,7 @@ public struct MapViewControllerBridge: UIViewControllerRepresentable {
         
         public func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
             if(parent.viewModel.canTapMap) {
-                parent.viewModel.placesViewModel.coordinate = coordinate
+//                parent.viewModel.placesViewModel.coordinate = coordinate
                 
                 parent.viewModel.placesViewModel.coordinate = coordinate
                 print("Address: reverseGeocodeCoordinate::: DID TAP AT \(coordinate)")
