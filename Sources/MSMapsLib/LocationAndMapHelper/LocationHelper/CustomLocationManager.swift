@@ -111,6 +111,7 @@ public class CustomLocationManager : NSObject , ObservableObject {
 }
 
 //Check permissions and location enabled
+@MainActor
 extension CustomLocationManager {
     func checkLocationEnabled() {
         if CLLocationManager.locationServicesEnabled() {
@@ -190,6 +191,7 @@ extension CustomLocationManager {
     }
 }
 
+@MainActor
 extension CustomLocationManager : CLLocationManagerDelegate {
     
     public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
