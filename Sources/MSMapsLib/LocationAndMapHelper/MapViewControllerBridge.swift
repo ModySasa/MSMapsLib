@@ -6,6 +6,7 @@ public struct MapViewControllerBridge: UIViewControllerRepresentable {
     @Binding public var markers: [GMSMarker]
     @Binding public var selectedMarker: GMSMarker?
     @Binding public var polylinesPaths: [(path: GMSMutablePath, color: Color, width: CGFloat)]?
+    @Binding public var regionsAdded: [(regionCenter : CLLocationCoordinate2D , innerRadiusInMeters : CLLocationDistance , outerRadiusInMeters : CLLocationDistance , innerColor: Color , outerColor: Color)]?
     @Binding public var markerClicks: [((Any) -> Void)?]?
     
     @Binding public var moveCameraToPosition : (coordinates : CLLocationCoordinate2D , zoom : Float)?
@@ -19,6 +20,30 @@ public struct MapViewControllerBridge: UIViewControllerRepresentable {
                 polyline.map = mapView
             }
         }
+    }
+    
+    func addRegions(mapView: GMSMapView) {
+        if let regions = regionsAdded {
+            for i in 0 ..< (regions).count {
+                let innerRadius = (regions)[i].innerRadiusInMeters
+                let outerRadius = (regions)[i].outerRadiusInMeters
+                let centerCoordinates = (regions)[i].regionCenter
+                let innerColor = (regions)[i].innerColor
+                let outerColor = (regions)[i].outerColor
+                
+                addCircle(mapView: mapView, centerCoordinate: centerCoordinates, outerRadius: outerRadius, color: outerColor)
+                addCircle(mapView: mapView, centerCoordinate: centerCoordinates, outerRadius: innerRadius, color: innerColor)
+            }
+        }
+    }
+    
+    func addCircle(mapView: GMSMapView, centerCoordinate: CLLocationCoordinate2D, outerRadius: Double, color: Color) {
+        let circle = GMSCircle(
+            position: centerCoordinate,
+            radius: outerRadius
+        )
+        circle.fillColor = UIColor(color)
+        circle.map = mapView
     }
     
     func didHaveMarkers(mapView: GMSMapView) {
@@ -39,7 +64,6 @@ public struct MapViewControllerBridge: UIViewControllerRepresentable {
             mapView.camera = camera
         }
     }
-    
     func moveCamera(mapView: GMSMapView) {
         if let moveCameraToPosition {
             let camera = GMSCameraPosition.camera(withLatitude: moveCameraToPosition.coordinates.latitude, longitude: moveCameraToPosition.coordinates.longitude, zoom: moveCameraToPosition.zoom)
@@ -54,6 +78,7 @@ public struct MapViewControllerBridge: UIViewControllerRepresentable {
         markerClicks: Binding<[((Any) -> Void)?]?>? = nil,
         selectedMarker: Binding<GMSMarker?>,
         polylinesPaths: Binding<[(path: GMSMutablePath, color: Color, width: CGFloat)]?>? = nil,
+        regionsAdded : Binding<[(regionCenter : CLLocationCoordinate2D , innerRadiusInMeters : CLLocationDistance , outerRadiusInMeters : CLLocationDistance , innerColor: Color , outerColor: Color)]?>? = nil,
         moveCameraToPosition : Binding<(coordinates : CLLocationCoordinate2D , zoom : Float)?>? = nil
     ) {
         self._viewModel = viewModel
@@ -61,6 +86,7 @@ public struct MapViewControllerBridge: UIViewControllerRepresentable {
         self._markerClicks = markerClicks ?? .constant(nil)
         self._selectedMarker = selectedMarker
         self._polylinesPaths = polylinesPaths ?? .constant(nil)
+        self._regionsAdded = regionsAdded ?? .constant(nil)
         self._moveCameraToPosition = moveCameraToPosition ?? .constant(nil)
     }
     
@@ -107,6 +133,8 @@ public struct MapViewControllerBridge: UIViewControllerRepresentable {
         }
         
         didSetPolylines(mapView: mapView)
+        
+        addRegions(mapView: mapView)
         
         moveCamera(mapView: mapView)
     }
