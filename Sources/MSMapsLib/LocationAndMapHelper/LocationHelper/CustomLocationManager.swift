@@ -114,11 +114,15 @@ public class CustomLocationManager : NSObject , ObservableObject {
 @MainActor
 extension CustomLocationManager {
     func checkLocationEnabled() {
-        if CLLocationManager.locationServicesEnabled() {
-            checkLocationAuth()
-        } else{
-            if let enableLoc = enableLocation {
-                enableLoc()
+        DispatchQueue.global(qos: .background).async {
+            if CLLocationManager.locationServicesEnabled() {
+                DispatchQueue.main.async {
+                    self.checkLocationAuth()
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.enableLocation?()
+                }
             }
         }
     }
