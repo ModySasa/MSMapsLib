@@ -66,10 +66,16 @@ open class GooglePlacesRequestHelpers {
             }
             guard let data = data, let response = response as? HTTPURLResponse else {
                 print("GooglePlaces Error: No response from API")
+                DispatchQueue.main.async {
+                    onError(CancellationError.init())
+                }
                 return
             }
             guard response.statusCode == 200 else {
                 print("GooglePlaces Error: Invalid status code \(response.statusCode) from API")
+                DispatchQueue.main.async {
+                    onError(CancellationError.init())
+                }
                 return
             }
             let object: NSDictionary?
@@ -84,6 +90,9 @@ open class GooglePlacesRequestHelpers {
             }
             guard object?["status"] as? String == "OK" else {
                 print("GooglePlaces API Error: \(object?["status"] ?? "")")
+                DispatchQueue.main.async {
+                    onError(CancellationError.init())
+                }
                 return
             }
             DispatchQueue.main.async {
